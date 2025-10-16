@@ -1,4 +1,4 @@
-CertHub is a centralized platform for automated certificate lifecycle management, offering seamless integration for generating, renewing, revoking, and distributing certificates across your organization. It simplifies the process of maintaining a trusted PKI infrastructure with high scalability and security.
+CertHub is a centralized Certificate Management System (CMS) that automates the issuance, revocation, and rotation of digital certificates across your organization. The system is built around the concept of PKI (Public Key Infrastructure), featuring a multi-tier CA (Certificate Authority) structure, with a Root CA, Intermediate CA, and Leaf CA for efficient certificate management. Additionally, it includes Root and Intermediate CA rotation to ensure that cryptographic keys are periodically refreshed and infrastructure remains secure.
 
 The system operates based on a multi-tier CA hierarchy, where:
 1.	Root CA (Root Certificate Authority):
