@@ -1,0 +1,18 @@
+server:
+  port: 8761
+  ssl:
+    enabled: true
+    key-store: classpath:mTLS/eureka-keystore-v2.p12
+    key-store-password: "Da123!@#"
+    key-store-type: PKCS12
+    trust-store: classpath:mTLS/eureka-truststore-v2.p12
+    trust-store-password: "Da123!@#"
+    trust-store-type: PKCS12
+    client-auth: need
+spring:
+  application:
+    name: eureka-server
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false

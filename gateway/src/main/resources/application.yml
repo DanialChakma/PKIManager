@@ -1,0 +1,38 @@
+server:
+  port: 9002
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: mtls-dev
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public-key.pem
+#          jwk-set-uri: http://localhost:9003/oauth/token_key
+  cloud:
+    gateway:
+      routes:
+#        - id: user-service
+#          uri: http://localhost:8081
+#          predicates:
+#            - Path=/users/**
+#
+#        - id: order-service
+#          uri: http://localhost:8082
+#          predicates:
+#            - Path=/orders/**
+        - id: auth-service
+          uri: http://localhost:9003
+          predicates:
+            - Path=/oauth/**
+        - id: customer-service
+          uri: http://localhost:9004
+          predicates:
+            - Path=/api/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: https://localhost:8761/eureka

@@ -1,0 +1,90 @@
+server:
+  port: 9002
+  ssl:
+    enabled: true
+    key-store: classpath:mTLS/gateway-keystore-v2.p12
+    key-store-password: "Da123!@#"
+    key-alias: gateway   # <--- important!
+    key-store-type: PKCS12
+    trust-store: classpath:mTLS/gateway-truststore.p12
+    trust-store-password: "Da123!@#"
+    trust-store-type: PKCS12
+    client-auth: need
+spring:
+  application:
+    name: api-gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public-key.pem
+#          jwk-set-uri: http://localhost:9003/oauth/token_key
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**
+        - id: order-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/orders/**
+        - id: auth-service
+          uri: http://localhost:9003
+          predicates:
+            - Path=/oauth/**
+        - id: customer-service
+          uri: http://localhost:9004
+          predicates:
+            - Path=/api/**
+        - id: pki-service
+          uri: http://localhost:9005
+          predicates:
+            - Path=/api/**
+
+eureka:
+  client:
+#    tls:
+#      enabled: true
+    service-url:
+      defaultZone: https://localhost:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true
+    enable-ssl: true
+    # 🔐 Client-side certificates (mTLS)
+#    keyStore: classpath:mTLS/gateway-keystore.p12
+#    keyStorePassword: "Da123!@#"
+#    keyStoreType: PKCS12
+#
+#    trustStore: classpath:mTLS/gateway-truststore.p12
+#    trustStorePassword: "Da123!@#"
+#    trustStoreType: PKCS12
+  transport:
+    ssl:
+      key-store: classpath:mTLS/gateway-keystore-v2.p12
+      key-store-password: "Da123!@#"
+      key-store-type: PKCS12
+      key-alias: gateway
+      trust-store: classpath:mTLS/gateway-truststore.p12
+      trust-store-password: "Da123!@#"
+      trust-store-type: PKCS12
+# System properties for Java SSL
+javax:
+  net:
+    ssl:
+      keyStore: classpath:mTLS/gateway-keystore-v2.p12
+      keyStorePassword: "Da123!@#"
+      keyAlias: gateway
+      keyStoreType: PKCS12
+      trustStore: classpath:mTLS/gateway-truststore.p12
+      trustStorePassword: "Da123!@#"
+      trustStoreType: PKCS12
+
+#      keyStore: src/main/resources/mTLS/gateway-keystore-v2.p12
+#      keyStorePassword: "Da123!@#"
+#      keyAlias: gateway
+#      keyStoreType: PKCS12
+#      trustStore: src/main/resources/mTLS/gateway-truststore.p12
+#      trustStorePassword: "Da123!@#"
+#      trustStoreType: PKCS12
