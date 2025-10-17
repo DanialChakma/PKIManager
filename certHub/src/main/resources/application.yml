@@ -1,0 +1,48 @@
+spring:
+  application:
+    name: pki-service
+  profiles:
+    active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/customers?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: danial
+    password: nopass
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #initialization-mode: always
+    #platform: mysql  # optional, helpful for Spring Boot to locate `schema-mysql.sql` if used
+  sql:
+    init:
+      mode: always            # ✅ Force schema.sql to run
+      continue-on-error: true # ✅ Optional, won't fail on minor SQL errors
+#      schema-locations: classpath:schema-mysql.sql # ✅ Explicit location
+#      data-locations: classpath:data.sql
+  jpa:
+    generate-ddl: false
+    hibernate:
+      use-new-id-generator-mappings: true
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          public-key-location: classpath:public-key.pem
+##          jwk-set-uri: http://localhost:9003/oauth/token_key
+#      resource:
+#        jwt:
+#          key-store: classpath:jwt-keystore.p12
+#          key-store-password: Da123!@#
+#          key-alias: jwt-key
+#          key-store-type: PKCS12
+server:
+  port: 9005
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
